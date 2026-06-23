@@ -23,8 +23,6 @@
 \usepackage{url}
 \usepackage{amsfonts,dcolumn}
 \usepackage{makecell}
-\usepackage{array}
-\usepackage{booktabs}
 
 \lstset{language=Python, literate={symbol_1}{symbol_l}1 {symbol_2}{simbol_2}1 }
 
@@ -49,73 +47,73 @@
 	
 	\begin{itemize}
 		
-		\item 	Tasks completed: A list of the specific tasks that the student has completed during the week, including any milestones reached or skills acquired.
-		\item 	Challenges faced: Any challenges or obstacles that the student encountered during the week and how they were overcome or addressed.
-		\item 	Progress made: An assessment of the overall progress made on the project during the week, including any changes to the original plan or timeline.
-		Students can include diagrams, figures, charts, and tables here to explain their work. There is no page limit.
+		\item Tasks completed:
+		\begin{itemize}
+			\item \textbf{Core Infrastructure \& Android Development:} Established a centralized, version-controlled repository and a central database to facilitate team collaboration. Setup the initial baseline environments for the call-center, MBBS, specialist, and nutritionist modules. Developed the patient Android application and successfully implemented a calling feature integrated with the call-center web portal to allow direct appointment bookings.
+			\item \textbf{Specialist Module:} Fixed navigation styling for active pages and designed an interactive PACS Viewport \cite{pacs2001} for medical image processing and viewing. Created a searchable DICOM archive registry \cite{dicom2021}. Developed a medical report exporter and built an interactive main reports page for viewing patient reports and issuing clinical findings.
+			\item \textbf{MBBS Module:} Implemented a digital signature upload feature for doctor prescriptions. Enabled comprehensive patient information views, vital signs logging, and emergency alert capabilities. Integrated preliminary diagnosis tracking along with symptom logging via ICD10 codes \cite{who2016icd10}. Enabled test ordering, specialist referrals, and downloadable PDF prescription generation. Added tracking for previous appointments and a detailed appointment care timeline.
+			\item \textbf{Nutritionist Module:} Added a regional food calorie lookup panel featuring an ingredient search panel. Built an input form to log patient measurements including height, weight, waist, and hip parameters. Created a localized 5-slot meal planner and integrated an interactive percentage slider to record diet compliance. Connected the backend architecture to pull live patient records, allergies, medications, and medical history directly from the database.
+		\end{itemize}
+		
+		\item Challenges faced:
+		\begin{itemize}
+			\item \textbf{Establishing Collaborative Workflows:} Minimizing integration conflicts across four distinct development streams required a uniform foundation. This was overcome by setting up a centralized repository and launching initialized baselines for all modules so the team could begin working simultaneously.
+			\item \textbf{Cross-Platform Communication:} Ensuring the mobile application seamlessly interacted with administrative web interfaces posed a potential integration barrier. This was resolved by successfully coupling the Android application's calling feature directly into the web portal of the call-center module to enable real-time communication.
+		\end{itemize}
+		
+		\item Progress made:
+		\begin{itemize}
+			\item \textbf{System Realization:} The project successfully shifted from independent module planning to a unified, functional ecosystem. With the central database and repository operational, development across the call-center, MBBS, specialist, and nutritionist modules is moving forward concurrently without pipeline blockages.
+			\item \textbf{Feature Depth:} High-priority clinical workflows—including interactive PACS viewing \cite{pacs2001}, ICD10 diagnostic logging \cite{who2016icd10}, database-driven nutrition tracking, and integrated cross-platform communication—have been successfully operationalized, keeping overall execution tightly aligned with the target schedule.
+		\end{itemize}
 		
 	\end{itemize}
-	
 	\subsection{Target for next weekly update}
-	Here is to include your specific goal or objective for the student to achieve in the upcoming weeks. Make a list and use the same list for follow-up for the next weekly update report.
 	
+	To ensure progress aligns with the overarching architecture and operational criteria outlined in the system's SRS \cite{srs2026}, the development objectives for the upcoming weekly sprint will focus on finalizing core module workflows and launching secondary systemic engines. 
+	
+	The targets are organized into the following clear development track objectives:
+	
+	\begin{itemize}
+		\item \textbf{Call-Center Agent Module Finalization:} Complete the remaining operational workflows for the call-center portal, including call queue dashboard interfaces, live telecom webhook processing loops, and routing fallback controls to finalize the primary patient intake gateway.
+		
+		\item \textbf{Cross-Module Refinements:} Deliver minor pending structural modifications within the Nutritionist module (diet template indexing), the MBBS module (vitals calculation validation), and the Specialist module (active view styling fixes) to secure baseline feature completion across all medical desks.
+		
+		\item \textbf{Patient Android Application Completion:} Finalize the outstanding client-facing features of the mobile application, ensuring that patient portals, appointment history timelines, and diagnostic booking views operate synchronously with backend endpoints.
+		
+		\item \textbf{Notification Engine Integration:} Architect and deploy the centralized system notification engine. This engine will support multi-channel communication pipelines—specifically automated SMS text updates, WhatsApp API triggers, and system-wide push notification alerts as required by the SRS framework \cite{srs2026}.
+		
+		\item \textbf{RAG-Based Document Summarization System:} Implement an intelligent Retrieval-Augmented Generation (RAG) \cite{rag2020} based document-viewing platform. This system will ingest raw patient histories, prior diagnostics, and lab datasets to auto-generate concise medical report summaries, directly optimizing clinical workflows for consulting physicians.
+	\end{itemize}
 	
 	\subsection{Individual contribution}
 	
-	\begin{itemize}
-		
-		\item Break down the work into a few key points/tasks. Then assign name of members to those who have contributed to that part.
-		
-		\item This is not who has written this document. One member can write the entire document, but many others can still contribute to other tasks and play their role in the overall project work.
-		
-		\item Do not include all members' names in all tasks. You should split tasks in a way that all members can contribute to the project. It's a part of teamwork.
-		
-	\end{itemize}
-	
 	\begin{table}[h]
 		\centering
-		\begin{tabular}{l c c}
+		\small
+		% Increases the vertical padding between table rows to clean up dense multi-line comments
+		\renewcommand{\arraystretch}{1.5}
+		\begin{tabular}{p{0.32\textwidth} p{0.18\textwidth} p{0.45\textwidth}}
 			\toprule
-			% & \multicolumn{2}{c}{Dataset A} & \multicolumn{2}{c}{Dataset B} \\
-			% \cmidrule(lr){2-3} \cmidrule(lr){4-5}
-			Task List & Member Assigned & Comments \\
+			\textbf{Task List} & \textbf{Member Assigned} & \textbf{Comments} \\
 			\midrule
-			Task 1 & Name1, Name2 & Comment \\
-			Task 2 & Name1, Name2 & Comment \\
-			Task 3 & Name1, Name2 & Comment \\
+			\textbf{System Infrastructure \& Mobile Client} & Mehrab & Initialized Git repository, central database, basic project modules, and integrated Android app with web calling portal. \\
+			\textbf{Specialist Module \& Medical Imaging} & Mushfiq & Built PACS Viewport \cite{pacs2001}, DICOM archive search registry \cite{dicom2021}, medical report exporter, and implemented active page navigation styling. \\
+			\textbf{MBBS Patient Care Module} & Nafsin & Developed prescription PDF workflow with digital signatures, ICD10 symptom logging \cite{who2016icd10}, vital sign tracking, and care timelines. \\
+			\textbf{Nutritionist \& Dietetics Module} & Jamil & Implemented a localized 5-slot meal planner, regional food calorie lookup, patient metrics form, and live database synchronization. \\
 			\bottomrule
 		\end{tabular}
-		\caption{Contrition summary.}
-		\label{tab:placeholder}
+		\vspace{12pt} % Keeps a clear gap above the caption text
+		\caption{CONTRIBUTION SUMMARY.}
+		\label{tab:contribution_summary}
 	\end{table}
 	
-	\section{Weekly Report 2}
-	
-	\section{Weekly Report 3}
-	
-	\section{Weekly Report 4}
-	
-	\section{Weekly Report 5}
-	
-	
-	% \noindent \textbf{Include codes like that}
-	% \begin{lstlisting} [frame=single,numbers=left]
-		% import numpy as np
-		% import matplotlib.pyplot as plt
-		% x = np.arange(-3, 3, 0.01)
-		% y = np.sin(np.pi*x)/(np.pi*x)
-		% # this is a comment
-		% plt.plot(x, y)
-		% \end{lstlisting}
-	
-	
-	
+	\nocite{*}
 	\bibliographystyle{abbrv}   
 	{\tiny
+		\raggedright
 		\bibliography{ref}
 	}
 	\vfill
 	
 \end{document}
-
-
