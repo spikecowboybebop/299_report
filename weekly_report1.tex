@@ -1,32 +1,32 @@
-\documentclass[lettersize,onecolumn,journal]{IEEEtran}
-\usepackage{amsmath,amsfonts}
+\documentclass[onecolumn,journal]{IEEEtran}
+\usepackage[T1]{fontenc} % Fixes \dj encoding error for special characters
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb}
 \usepackage{algorithmic}
 \usepackage{titling}
 \usepackage{algorithm}
-\usepackage{float}
 \usepackage{array}
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 \usepackage{textcomp}
 \usepackage{listings}
-\usepackage{url}
 \lstset{basicstyle=\ttfamily, keywordstyle=\bfseries}
 \usepackage{stfloats}
+\usepackage{url}
 \usepackage{verbatim}
 \usepackage{graphicx}
 \usepackage[nospace,compress,sort]{cite}
 \hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
-\usepackage{graphicx}
 \usepackage{color}
-\usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{wrapfig}
-\usepackage{url}
-\usepackage{amsfonts,dcolumn}
+\usepackage{dcolumn}
 \usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{placeins} 
+\usepackage{float} % Enables strict 'H' placement specifier for tables
 
 \lstset{language=Python, literate={symbol_1}{symbol_l}1 {symbol_2}{simbol_2}1 }
-
 
 \begin{document}
 	
@@ -89,12 +89,11 @@
 	
 	\subsection{Individual contribution}
 	
-	\begin{table}[h]
+	\begin{table}[H]
 		\centering
 		\small
-		% Increases the vertical padding between table rows to clean up dense multi-line comments
 		\renewcommand{\arraystretch}{1.5}
-		\begin{tabular}{p{0.32\textwidth} p{0.18\textwidth} p{0.45\textwidth}}
+		\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth} >{\raggedright\arraybackslash}p{0.20\textwidth} >{\raggedright\arraybackslash}X}
 			\toprule
 			\textbf{Task List} & \textbf{Member Assigned} & \textbf{Comments} \\
 			\midrule
@@ -103,108 +102,335 @@
 			\textbf{MBBS Patient Care Module} & Nafsin & Developed prescription PDF workflow with digital signatures, ICD10 symptom logging \cite{who2016icd10}, vital sign tracking, and care timelines. \\
 			\textbf{Nutritionist \& Dietetics Module} & Jamil & Implemented a localized 5-slot meal planner, regional food calorie lookup, patient metrics form, and live database synchronization. \\
 			\bottomrule
-		\end{tabular}
-		\vspace{12pt} % Keeps a clear gap above the caption text
-		\caption{CONTRIBUTION SUMMARY.}
-		\label{tab:contribution_summary}
+		\end{tabularx}
+		\vspace{12pt}
+		\caption{CONTRIBUTION SUMMARY (WEEK 1).}
+		\label{tab:contribution_summary_w1}
 	\end{table}
 	
-\section{Weekly Report 2}
-\subsection{Follow-up from last week}
-
-Following the strategic development targets outlined in the previous week's sprint planning, the team successfully addressed the critical milestones to progress the architecture of the Home Healthcare \& Diagnostic Center Management System (HHDMS) \cite{srs2026}. The baseline status of last week's targets is summarized below:
-
-\begin{itemize}
-	\item \textbf{Call-Center Agent Module Finalization:} Completed. The call-center agent web dashboard was successfully established to streamline multi-role bookings, enabling agents to log patient requests and allocate available doctors directly via a unified operational interface.
-	\item \textbf{Cross-Module Refinements:} Completed. Database schemas were scaled using Prisma to index structured food and diet templates (\texttt{food\_items}, \texttt{diet\_templates}, \texttt{diet\_template\_meals}). Legacy dependencies and import/export bugs within the primary MBBS module were fully refactored to achieve system stability. 
-	\item \textbf{Patient Android Application Completion:} Completed. Core mobile functionalities were systematically delivered, including full CRUD operations for the MBBS desk, a newly integrated Caregiver module, map-based arrival tracking featuring a simulated 60-second countdown, and persistent client-side tracking using \texttt{VisitStorage}.
-	\item \textbf{Notification Engine Integration:} Completed and Expanded. A dual-channel notification pipeline was successfully deployed, executing parallel delivery paths via instant Push Notifications and a backup 15-second polling loop. Automated device token management and WebSockets \cite{fette2011websocket} were added to handle refresh-free updates.
-	\item \textbf{RAG-Based Document Summarization System:} Pivoted. To address immediate workflow priorities, this component—initially conceived as a Retrieval-Augmented Generation layout \cite{rag2020}—evolved into two core components: a real-time clinical document scanner for physicians and an on-demand dynamic report engine built with \texttt{pdfkit} to stream compiled patient case summaries as downloadable PDFs.
-\end{itemize}
-
-\subsection{Work narrative of the current week}
-
-The development efforts during this sprint focused on migrating the system architecture into a highly integrated, production-grade clinical environment aligned with institutional specifications \cite{srs2026}. The team prioritized expanding cross-platform feature sets, implementing robust real-time event loops, scaling relational schemas, and establishing rigorous server-side security primitives to safeguard patient records across all functional desks.
-
-\begin{itemize}
+	\FloatBarrier
+	\section{Weekly Report 2}
+	\subsection{Follow-up from last week}
 	
-	\item Tasks completed:
+	Following the strategic development targets outlined in the previous week's sprint planning, the team successfully addressed the critical milestones to progress the architecture of the Home Healthcare \& Diagnostic Center Management System (HHDMS) \cite{srs2026}. The baseline status of last week's targets is summarized below:
+	
 	\begin{itemize}
-		\item \textbf{Core Infrastructure, Security \& Real-Time Updates:} Scaled the centralized production and local database architecture using Prisma and Neon DB to introduce structural definitions for complex food assets and granular meal compositions. Engineered an immutable server-side security layout utilizing a custom \texttt{ensurePatientArrived()} middleware guard \cite{androutsellis2004middleware} that blocks data leakage by dropping unauthorized workspace requests with an explicit \texttt{Forbidden\allowbreak{}Exception}. Deployed persistent WebSocket background connections \cite{fette2011websocket} on the clinical interface to route users into isolated virtual rooms, facilitating refresh-free badge and component updates in real time. Implemented an advanced multi-channel notification architecture that coordinates immediate push alerts with a backup 15-second client-side polling cycle to ensure transactional integrity during database delivery marking. Configured robust automated database seeding scripts to populate multi-role mock records and systematically clear remote configuration exceptions.
-		
-		\item \textbf{Mobile Application Architecture \& Client Portals:} Expanded cross-platform functionalities by delivering an automated multi-user testing configuration that flushes cached local state upon user session termination across web and mobile lines. Engineered a three-stage visit tracking layer on the interface to track the live physical status of physicians through distinct pending, arriving, and arrived configurations. Programmed a client-facing map interface equipped with a simulated 60-second arrival countdown animation that automatically transmits background confirmation POST endpoints, leveraging local \texttt{VisitStorage} for session survival. Built an out-of-flow patient consent dialog system using localized interface flags that securely prompt users without interrupting session validation. Deployed an automated token management module that registers client devices and maps them systematically into targeted notification topics based on operational context. Fully implemented native mobile features including full CRUD operations for primary care interactions and a standalone Caregiver tracking sub-module.
-		
-		\item \textbf{Sonologist \& Specialist Modules:} Designed and implemented the full-stack architecture for a brand new Sonologist workspace, supplying dedicated UI layouts, specialized navigation sidebars, and tailored backend endpoint logic to safely process clinical imaging data \cite{dicom2021, pacs2001}. Refactored production relational schemas to seamlessly absorb specialist operations while removing redundant fields to maintain relational integrity. Developed localized basic authentication boundaries and access management structures to shield the sonologist environment from unauthorized internal actors.
-		
-		\item \textbf{Clinical Reporting \& Primary Care Refinements:} Integrated a native real-time document scanning mechanism into the medical dashboard to digitize external physical health records instantly. Engineered a streaming engine built on \texttt{pdfkit} that processes case details into downloadable binary PDF streams directly to client interfaces. Resolved lingering module boundaries by debugging multi-module import/export exceptions and modernizing deprecated configuration syntax within the legacy MBBS code.
-		
-		\item \textbf{Nutritionist Workbench \& Analytics API:} Built a type-safe analytical service (\texttt{calculateNutrients}) that computes precise macronutrient allocations and caloric margins based on custom mass weights in real time. Designed an interactive split-screen frontend workspace featuring live nutrient progress meters, instant BMI calculation indicators, and multi-metric analytics visualizations.
+		\item \textbf{Call-Center Agent Module Finalization:} Completed. The call-center agent web dashboard was successfully established to streamline multi-role bookings, enabling agents to log patient requests and allocate available doctors directly via a unified operational interface.
+		\item \textbf{Cross-Module Refinements:} Completed. Database schemas were scaled using Prisma to index structured food and diet templates (\texttt{food\_items}, \texttt{diet\_templates}, \texttt{diet\_template\_meals}). Legacy dependencies and import/export bugs within the primary MBBS module were fully refactored to achieve system stability. 
+		\item \textbf{Patient Android Application Completion:} Completed. Core mobile functionalities were systematically delivered, including full CRUD operations for the MBBS desk, a newly integrated Caregiver module, map-based arrival tracking featuring a simulated 60-second countdown, and persistent client-side tracking using \texttt{VisitStorage}.
+		\item \textbf{Notification Engine Integration:} Completed and Expanded. A dual-channel notification pipeline was successfully deployed, executing parallel delivery paths via instant Push Notifications and a backup 15-second polling loop. Automated device token management and WebSockets \cite{fette2011websocket} were added to handle refresh-free updates.
+		\item \textbf{RAG-Based Document Summarization System:} Pivoted. To address immediate workflow priorities, this component—initially conceived as a Retrieval-Augmented Generation layout \cite{rag2020}—evolved into two core components: a real-time clinical document scanner for physicians and an on-demand dynamic report engine built with \texttt{pdfkit} to stream compiled patient case summaries as downloadable PDFs.
 	\end{itemize}
 	
-	\item Challenges faced:
+	\subsection{Work narrative of the current week}
+	
+	The development efforts during this sprint focused on migrating the system architecture into a highly integrated, production-grade clinical environment aligned with institutional specifications \cite{srs2026}. The team prioritized expanding cross-platform feature sets, implementing robust real-time event loops, scaling relational schemas, and establishing rigorous server-side security primitives to safeguard patient records across all functional desks.
+	
 	\begin{itemize}
-		\item \textbf{Data Privacy \& Gating Vulnerabilities:} Restricting consulting physicians from accessing highly sensitive clinical dashboards prior to physical verification presented a severe security risk. This was resolved by creating a strict double-factor interface gate that requires both a physical arrival confirmation and active patient consent, fortified on the backend via a middleware validation guard (\texttt{ensurePatientArrived()}) \cite{androutsellis2004middleware} that instantly throws exceptions upon unauthorized bypass attempts.
 		
-		\item \textbf{Notification Dropouts in Low-Bandwidth Zones:} Relying solely on conventional push notification alerts was vulnerable to packet drops in weak signal areas. The team bypassed this problem by building a dual-path pipeline running instant push updates in parallel with a background 15-second client polling check; the system explicitly enforces that a message state is only marked as officially delivered in the database once verified by the polling check.
+		\item Tasks completed:
+		\begin{itemize}
+			\item \textbf{Core Infrastructure, Security \& Real-Time Updates:} Scaled the centralized production and local database architecture using Prisma and Neon DB to introduce structural definitions for complex food assets and granular meal compositions. Engineered an immutable server-side security layout utilizing a custom \texttt{ensure\-Patient\-Arrived()} middleware guard \cite{androutsellis2004middleware} that blocks data leakage by dropping unauthorized workspace requests with an explicit \texttt{Forbidden\-Exception}. Deployed persistent WebSocket background connections \cite{fette2011websocket} on the clinical interface to route users into isolated virtual rooms, facilitating refresh-free badge and component updates in real time. Implemented an advanced multi-channel notification architecture that coordinates immediate push alerts with a backup 15-second client-side polling cycle to ensure transactional integrity during database delivery marking. Configured robust automated database seeding scripts to populate multi-role mock records and systematically clear remote configuration exceptions.
+			
+			\item \textbf{Mobile Application Architecture \& Client Portals:} Expanded cross-platform functionalities by delivering an automated multi-user testing configuration that flushes cached local state upon user session termination across web and mobile lines. Engineered a three-stage visit tracking layer on the interface to track the live physical status of physicians through distinct pending, arriving, and arrived configurations. Programmed a client-facing map interface equipped with a simulated 60-second arrival countdown animation that automatically transmits background confirmation POST endpoints, leveraging local \texttt{VisitStorage} for session survival. Built an out-of-flow patient consent dialog system using localized interface flags that securely prompt users without interrupting session validation. Deployed an automated token management module that registers client devices and maps them systematically into targeted notification topics based on operational context. Fully implemented native mobile features including full CRUD operations for primary care interactions and a standalone Caregiver tracking sub-module.
+			
+			\item \textbf{Sonologist \& Specialist Modules:} Designed and implemented the full-stack architecture for a brand new Sonologist workspace, supplying dedicated UI layouts, specialized navigation sidebars, and tailored backend endpoint logic to safely process clinical imaging data \cite{dicom2021, pacs2001}. Refactored production relational schemas to seamlessly absorb specialist operations while removing redundant fields to maintain relational integrity. Developed localized basic authentication boundaries and access management structures to shield the sonologist environment from unauthorized internal actors.
+			
+			\item \textbf{Clinical Reporting \& Primary Care Refinements:} Integrated a native real-time document scanning mechanism into the medical dashboard to digitize external physical health records instantly. Engineered a streaming engine built on \texttt{pdfkit} that processes case details into downloadable binary PDF streams directly to client interfaces. Resolved lingering module boundaries by debugging multi-module import/export exceptions and modernizing deprecated configuration syntax within the legacy MBBS code.
+			
+			\item \textbf{Nutritionist Workbench \& Analytics API:} Built a type-safe analytical service (\texttt{calculateNutrients}) that computes precise macronutrient allocations and caloric margins based on custom mass weights in real time. Designed an interactive split-screen frontend workspace featuring live nutrient progress meters, instant BMI calculation indicators, and multi-metric analytics visualizations.
+		\end{itemize}
 		
-		\item \textbf{Schema Disruption and Legacy Code Integration:} Merging deep structural additions for advanced nutrition templates and new specialist modules risked breaking older relational hooks and core dependencies. This was systematically addressed by conducting a comprehensive database schema refactor with Prisma, deploying automated multi-role seeding scripts to clear environment flags, and updating legacy import/export boundaries across the MBBS module.
+		\item Challenges faced:
+		\begin{itemize}
+			\item \textbf{Data Privacy \& Gating Vulnerabilities:} Restricting consulting physicians from accessing highly sensitive clinical dashboards prior to physical verification presented a severe security risk. This was resolved by creating a strict double-factor interface gate that requires both a physical arrival confirmation and active patient consent, fortified on the backend via a middleware validation guard (\texttt{ensure\-Patient\-Arrived()}) \cite{androutsellis2004middleware} that instantly throws exceptions upon unauthorized bypass attempts.
+			
+			\item \textbf{Notification Dropouts in Low-Bandwidth Zones:} Relying solely on conventional push notification alerts was vulnerable to packet drops in weak signal areas. The team bypassed this problem by building a dual-path pipeline running instant push updates in parallel with a background 15-second client polling check; the system explicitly enforces that a message state is only marked as officially delivered in the database once verified by the polling check.
+			
+			\item \textbf{Schema Disruption and Legacy Code Integration:} Merging deep structural additions for advanced nutrition templates and new specialist modules risked breaking older relational hooks and core dependencies. This was systematically addressed by conducting a comprehensive database schema refactor with Prisma, deploying automated multi-role seeding scripts to clear environment flags, and updating legacy import/export boundaries across the MBBS module.
+		\end{itemize}
+		
+		\item Progress made:
+		\begin{itemize}
+			\item \textbf{System Realization:} The ecosystem has successfully transitioned from an unlinked multi-module baseline to an active, secure, full-stack environment. Cross-platform operations—including automatic map countdowns, multi-role agent web portals, and native mobile clients—now communicate seamlessly with backend databases without pipeline blockages or synchronization errors.
+			
+			\item \textbf{Feature Depth:} High-priority automated workflows have been fully operationalized to drive clinical efficiency. The implementation of real-time WebSocket dashboard rooms \cite{fette2011websocket}, localized document scanning pipelines, type-safe nutritional API engines, dynamic PDF document streaming, and hardened middleware security layers ensures overall development scales reliably while maintaining tight adherence to target specifications \cite{srs2026}.
+		\end{itemize}
+		
+	\end{itemize}
+	\subsection{Target for next weekly update}
+	
+	To maintain development velocity and align the current full-stack ecosystem with the operational goals outlined in the Software Requirements Specification (SRS) \cite{srs2026}, the upcoming sprint will focus on moving from individual workspace modules to end-to-end patient scheduling, core diagnostic pipelines, and real-time field tracking. The target milestones for the upcoming weekly update are itemized below:
+	
+	\begin{itemize}
+		\item \textbf{Field Personnel Live GPS Tracking \& Route Mapping:} Extend the native Android application's physical mapping features beyond static countdowns to support live background GPS telemetry tracking \cite{zandbergen2009accuracy} for traveling caregivers and doctors, synchronizing active coordinate fields back to the supervisor dashboard via WebSockets \cite{fette2011websocket}.
+		\item \textbf{Call Center Queue Management \& Dispatch Logic:} Develop the core matching algorithm within the call center agent portal to systematically process incoming queues, dispatching open patient requests to local MBBS doctors or specialists based on geo-proximity and real-time shift availability matrices.
+		\item \textbf{Diagnostic Imaging Workspace Expansion (Sonologist \& X-Ray):} Fully operationalize the newly established Sonologist workspace by building cloud storage upload endpoints for medical imagery files following standard DICOM protocols \cite{dicom2021}, enabling direct attachments to picture archiving layers \cite{pacs2001} alongside standard ICD-10 diagnostic annotation panels \cite{who2016icd10}.
+		\item \textbf{Billing \& Payment Gateway Integration:} Design the backend invoice calculation layer and integrate preliminary automated sandboxed payment workflows (simulating bKash/Nagad gateway responses) to support immediate transactional processing upon clinical check-out.
+		\item \textbf{Diet Template Automated Generation \& Export:} Expand the nutritionist workbench by adding an automated rule-based configuration tool that allows professionals to clone predefined structured diet sheets (\texttt{diet\_templates}) directly into active patient timelines, triggering the custom \texttt{pdfkit} compiler engine to stream finalized meal regimens.
 	\end{itemize}
 	
-	\item Progress made:
+	\subsection{Individual contribution}
+	
+	\begin{table}[H] 
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth} >{\raggedright\arraybackslash}p{0.20\textwidth} >{\raggedright\arraybackslash}X}
+			\toprule
+			\textbf{Task List} & \textbf{Member Assigned} & \textbf{Comments} \\
+			\midrule
+			\textbf{System Infrastructure \& Security Guards} & Mehrab & Engineered the backend middleware verification architecture (\texttt{ensure\-Patient\-Arrived()}), WebSocket isolated virtual room routing, multi-user automatic data flush logic, and multi-channel notification polling loops. \\
+			\textbf{Specialist Module \& Sonologist Layouts} & Mushfiq & Designed and deployed the full-stack Sonologist module workspace from end to end, refactored production schemas, and cleaned up multi-module import/export compilation errors. \\
+			\textbf{Mobile Caregiving \& Document Scanning} & Nafsin & Implemented the physician portal document scanning feature, native mobile primary care CRUD operations, and the standalone Caregiver management tracking module within the Android client app. \\
+			\textbf{Dietetics Workbench \& Document Streaming} & Jamil & Developed database schemas using Prisma and Neon DB for nutrition tables, built the type-safe \texttt{calculate\-Nutrients} macro API, and integrated the \texttt{pdfkit} patient report binary streaming layout. \\
+			\bottomrule
+		\end{tabularx}
+		\vspace{8pt} 
+		\caption{CONTRIBUTION SUMMARY (WEEK 2).}
+		\label{tab:contribution_summary_w2}
+	\end{table}
+	
+	\FloatBarrier
+	\section{Weekly Report 3}
+	
+	\subsection{Follow-up from last week}
+	
+	Following the strategic development targets outlined in Weekly Report 2, the team systematically executed the key operational and clinical milestones for the Home Healthcare \& Diagnostic Center Management System \cite{srs2026}. The detailed implementation status and technical outcomes of the previous sprint targets are summarized below:
+	
 	\begin{itemize}
-		\item \textbf{System Realization:} The ecosystem has successfully transitioned from an unlinked multi-module baseline to an active, secure, full-stack environment. Cross-platform operations—including automatic map countdowns, multi-role agent web portals, and native mobile clients—now communicate seamlessly with backend databases without pipeline blockages or synchronization errors.
+		\item \textbf{Field Personnel Telemetry, Geospatial Tracking \& Dynamic Route Mapping:} Completed. Architected a low-latency geospatial telemetry framework across mobile client endpoints \cite{zandbergen2009accuracy}. The implementation incorporates asynchronous background location sampling algorithms, dynamic distance matrix computations for route optimization, and persistent WebSocket channels for high-frequency coordinate broadcasting to dispatch consoles \cite{fette2011websocket}.
 		
-		\item \textbf{Feature Depth:} High-priority automated workflows have been fully operationalized to drive clinical efficiency. The implementation of real-time WebSocket dashboard rooms \cite{fette2011websocket}, localized document scanning pipelines, type-safe nutritional API engines, dynamic PDF document streaming, and hardened middleware security layers ensures overall development scales reliably while maintaining tight adherence to target specifications \cite{srs2026}.
+		\item \textbf{Call Center Queue Orchestration, Event Signaling \& Dispatch Logic:} Completed and Expanded. Engineered a real-time event-driven dispatch engine utilizing Socket.IO signaling protocols \cite{fette2011websocket}. The system facilitates stateful conversation routing, automated queue prioritization, and dynamic patient-to-provider assignment pipelines to streamline complex multi-role clinical workflows.
+		
+		\item \textbf{Diagnostic Imaging Workspace Expansion (Sonologist \& Specialist DICOM Suite):} Completed. Fully operationalized the diagnostic imaging infrastructure for Sonologists and Clinical Specialists through the integration of a Cornerstone.js DICOM viewing engine \cite{dicom2021, pacs2001}. The platform provides windowing/leveling (brightness/contrast) manipulation, spatial transformation controls (zoom, pan, rotation), multi-frame volumetric dataset navigation, and an interactive HTML5 Canvas overlay architecture for vector-based clinical annotations.
+		
+		\item \textbf{Financial Operations \& Multi-Platform Payment Gateway Integration:} Completed. Deployed an end-to-end payment processing architecture backed by Stripe infrastructure \cite{stripe2024api}. The pipeline supports server-side \texttt{PaymentIntent} lifecycle management, native client-side \texttt{PaymentSheet} execution within mobile clients, secure webhook event handlers for asynchronous transaction verification, and transactional database state sync for automated invoice reconciliation.
+		
+		\item \textbf{Nutritional Intelligence Workbench, Automated Diet Generation \& PDF Pipeline:} Completed. Operationalized the Nutritionist clinical workspace by engineering automated anthropometric analytics modules, dynamic nutrient-balanced meal slot configuration interfaces, and client-side rendering engines capable of compiling structured dietary management plans into standardized PDF documents.
 	\end{itemize}
 	
-\end{itemize}
-\subsection{Target for next weekly update}
+	\subsection{Work narrative of the current week}
+	
+	During the current development sprint, engineering efforts focused on advancing the cross-platform capabilities of the Home Healthcare \& Diagnostic Center Management System \cite{srs2026}. The team implemented high-concurrency real-time protocols, complex diagnostic UI workflows, embedded medical image processing engines, end-to-end transactional payment processing, and field personnel tracking tools across Web (Next.js 16), Backend API (NestJS 11), Relational Database (Prisma ORM with Neon PostgreSQL), and Mobile platforms (Android Jetpack Compose and a dedicated Nurse module).
+	
+	\newpage
+	\begin{itemize}
+		\item Tasks completed:
+		\begin{itemize}
+			\item \textbf{Specialist Consultation Architecture \& WebRTC Video Subsystem:} Engineered a comprehensive specialist consultation platform centered on an integrated workspace interface (\texttt{consultation/\-[referralId]/\-page.tsx}). To accommodate diverse clinical requirements, dynamic schema-driven diagnosis forms were deployed across 11 medical specialties, backed by 16 pre-seeded clinical evaluation protocols. A custom rule-based drug interaction engine was built within the backend to evaluate over 120 common medication pairs, issuing real-time warnings classified by clinical severity (major, moderate, mild) prior to prescription finalization. Additionally, a peer-to-peer WebRTC video consultation subsystem was established utilizing the Agora RTC SDK \cite{agorawebrtc}, coordinated via a custom Socket.IO signaling gateway (\texttt{video-call.gateway.ts}) handling real-time ringing state transitions, room allocation, token generation, and native Jetpack Compose mobile client integration (\texttt{VideoCallScreen.kt}, \texttt{IncomingVideoCallModal.kt}).
+			
+			\item \textbf{Medical Image Analysis Engine \& Cornerstone.js Integration:} Built an inline web DICOM image rendering engine (\texttt{dicom-viewer.tsx}) using \texttt{cornerstone.js} to handle medical imaging retrieval and visualization \cite{dicom2021, pacs2001}. To enable precise diagnostic evaluation, a multi-layered HTML5 canvas overlay pipeline (\texttt{dicom-canvas-overlay.tsx}) was developed. This overlay handles coordinate spatial transformations between screen space and high-resolution DICOM pixel space, providing clinicians with interactive diagnostic tools including freehand drawing, rectangular region-of-interest markers, labeled arrow vectors, text annotations, and calibrated distance measurement tools with full undo/redo state management.
+			
+			\item \textbf{Transactional Payment Processing \& Real-Time Chat Infrastructure:} Deployed an end-to-end payment gateway integration using the Stripe API (\texttt{payments.service.ts}) \cite{stripe2024api}. The service orchestrates secure \texttt{PaymentIntent} lifecycle management, handles asynchronous Stripe webhook verifications, and links successful financial settlements directly to patient appointment records. Native Stripe PaymentSheet interfaces were integrated into the Android booking workflow to facilitate in-app payments. Concurrently, a real-time bidirectional communication system (\texttt{chat.gateway.ts}) was built using Socket.IO \cite{fette2011websocket}. This system manages appointment-scoped chat rooms, message persistence, typing indicators, read receipts, and responsive UI components across both Next.js web and Android mobile environments (\texttt{ChatScreen.kt}).
+			
+			\item \textbf{GPS-Verified Field Caregiver Operations \& Sonologist Platform:} Operationalized a full-stack Caregiver management framework. Android devices capture spatial coordinates via \texttt{FusedLocationProviderClient}, which are validated on the NestJS backend using Haversine distance calculations against registered patient locations to confirm physical presence during shift check-in/out events and auto-generate verifiable timesheets \cite{zandbergen2009accuracy}. The module also supports real-time activity logging and condition report submission with direct alert triggers sent to supervising clinical staff. In parallel, the Sonologist workspace was fully realized, supporting ultrasound study management and clinical report generation \cite{dicom2021}.
+			
+			\item \textbf{Standalone Android Nurse Application \& Nutritionist Workbench:} Architected a dedicated Gradle module (\texttt{:nurse}) to support nursing operations independently from the primary patient application. The app incorporates a 14-screen state machine, phone authentication with BD country prefix validation (+880), Firebase Cloud Messaging (FCM) push notifications, vital signs monitoring, IV fluid administration logs, medication delivery records, wound care progress tracking, pediatric growth tracking, and shift handover checklists. On the web platform, the Nutritionist workbench was fully wired to Neon PostgreSQL databases, featuring an interactive diet plan builder with meal-slot configurations, anthropometric trend analytics (BMI, waist-to-hip ratios), and adherence score tracking.
+		\end{itemize}
+		
+		\item Challenges faced:
+		\begin{itemize}
+			\item \textbf{Cross-Protocol Handshaking in Video Call Signaling:} Interoperability discrepancies between Android Socket.IO client libraries and NestJS WebSocket gateways initially resulted in connection failures during WebRTC signaling \cite{fette2011websocket}. This was resolved by explicitly configuring \texttt{allowEIO3} compatibility flags on the gateway and implementing client auto-registration based on persistent UUID identifiers.
+			
+			\item \textbf{Coordinate Transformation for Diagnostic Annotations:} Maintaining accurate diagnostic markup overlays across scaled, zoomed, and panned DICOM viewports presented spatial alignment challenges \cite{pacs2001}. The team implemented a specialized coordinate transform pipeline (\texttt{dicom-annotation.ts}) that translates screen-space Canvas event vectors into invariant DICOM image-pixel space coordinates prior to canvas rendering.
+			
+			\item \textbf{Spatial Validation for Unattended Home Care Visits:} Securing the caregiver check-in mechanism against location spoofing required robust backend verification \cite{zandbergen2009accuracy}. Incoming location payloads are evaluated against registered patient spatial targets using spherical distance formulas on the server side before authorizing shift initialization and time tracking.
+		\end{itemize}
+		
+		\item Progress made:
+		\begin{itemize}
+			\item \textbf{End-to-End Clinical System Integration:} The Home Healthcare \& Diagnostic Center Management System has successfully unified disparate medical roles—including MBBS primary care physicians, specialists, sonologists, nutritionists, field caregivers, and nurses—into a secure, synchronized multi-tier ecosystem \cite{srs2026}.
+			
+			\item \textbf{Production-Grade Subsystem Delivery:} Crucial functional domains, including WebRTC video consultations, interactive DICOM diagnostic tools, real-time doctor-patient messaging, Stripe payment gateways, and GPS-validated field operations, have been fully operationalized with persistent database support \cite{agorawebrtc, stripe2024api}.
+		\end{itemize}
+	\end{itemize}
+	
+	\subsection{Target for next weekly update}
+	
+	To systematically fulfill the architectural constraints outlined in the Software Requirements Specification (SRS) \cite{srs2026} and facilitate the transition of the Home Healthcare \& Diagnostic Center Management System platform toward staging deployment, the upcoming development sprint will prioritize the following key objectives:
+	
+	\begin{itemize}
+		\item \textbf{Telephony-Integrated Call Center Agent Desktop \& Automated Ticketing System:} Engineer a high-throughput Call Center Management Subsystem featuring Telephony-Computer Integration (CTI) via WebRTC/SIP gateways \cite{agorawebrtc}. The interface will support real-time Inbound Caller Identification (CLI) popups cross-referenced against patient records, automated generation of unique incident identifiers using a deterministic sequence pattern (\texttt{TKT-YYYY-XXXXX}), and dynamic call-queue displays monitoring Average Handle Time (AHT) and First Call Resolution (FCR) metrics. Furthermore, a low-latency emergency triage protocol will be implemented to enable one-click call bridging and escalation to on-duty MBBS clinical staff.
+		
+		\item \textbf{Asynchronous Notification Pipeline \& Distributed Message Queue Architecture:} Architect a decoupled, event-driven messaging topology leveraging RabbitMQ and Redis pub/sub channels to handle transactional communications \cite{catovic2022microservice}. This pipeline will manage multi-channel dispatch—including Short Message Service (SMS) and WhatsApp Business APIs—for high-priority system events such as appointment confirmations, temporal geolocation tracking links, encrypted PDF prescription download endpoints, and digital invoice receipts, ensuring resilient delivery through exponential backoff retry mechanisms.
+		
+		\item \textbf{System-Wide Security Hardening, Zero-Trust RBAC, and Regulatory Compliance Audit:} Conduct rigorous vulnerability assessments and static/dynamic security analysis across all RESTful APIs, GraphQL instances, and Socket.IO WebSocket connections. The security architecture will be updated to enforce strict Attribute- and Role-Based Access Control (ABAC/RBAC) paradigms, ensuring zero-leakage data isolation across multi-tenant user profiles. Additionally, field-level Advanced Encryption Standard (AES-256-GCM) will be applied to all persisted Protected Health Information (PHI), complemented by automated session invalidation protocols following 15 minutes of non-interactive client inactivity.
+		
+		\item \textbf{Point-of-Care Diagnostic Device Synchronization \& DICOM Metadata Extraction Pipeline:} Develop high-reliability USB and local IEEE 802.11 (Wi-Fi) data ingestion interfaces to interface with portable Ultrasonography (USG) and digital radiography (X-Ray) hardware \cite{dicom2021}. The service will automate the parsing of acquisition parameters—specifically peak kilovoltage ($kVp$) and exposure current-time product ($mAs$)—while dynamically extracting standardized DICOM PS3 metadata directly into central patient electronic health records (EHR) to guarantee diagnostic lineage.
+		
+		\item \textbf{Executive Business Intelligence, Operational Analytics, and Financial Ledger Engine:} Construct an administrative visualization suite featuring interactive multi-dimensional dashboards for institutional monitoring. This module will synthesize operational key performance indicators (KPIs), clinical provider throughput scorecards, regional health metrics, and district-wise revenue distribution using dynamic chart rendering libraries, supported by an exportable, double-entry audit-compliant financial ledger system.
+	\end{itemize}
+	
+	\subsection{Individual contribution}
 
-To maintain development velocity and align the current full-stack ecosystem with the operational goals outlined in the Software Requirements Specification (SRS) \cite{srs2026}, the upcoming sprint will focus on moving from individual workspace modules to end-to-end patient scheduling, core diagnostic pipelines, and real-time field tracking. The target milestones for the upcoming weekly update are itemized below:
-
-\begin{itemize}
-	\item \textbf{Field Personnel Live GPS Tracking \& Route Mapping:} Extend the native Android application's physical mapping features beyond static countdowns to support live background GPS telemetry tracking \cite{zandbergen2009accuracy} for traveling caregivers and doctors, synchronizing active coordinate fields back to the supervisor dashboard via WebSockets \cite{fette2011websocket}.
-	\item \textbf{Call Center Queue Management \& Dispatch Logic:} Develop the core matching algorithm within the call center agent portal to systematically process incoming queues, dispatching open patient requests to local MBBS doctors or specialists based on geo-proximity and real-time shift availability matrices.
-	\item \textbf{Diagnostic Imaging Workspace Expansion (Sonologist \& X-Ray):} Fully operationalize the newly established Sonologist workspace by building cloud storage upload endpoints for medical imagery files following standard DICOM protocols \cite{dicom2021}, enabling direct attachments to picture archiving layers \cite{pacs2001} alongside standard ICD-10 diagnostic annotation panels \cite{who2016icd10}.
-	\item \textbf{Billing \& Payment Gateway Integration:} Design the backend invoice calculation layer and integrate preliminary automated sandboxed payment workflows (simulating bKash/Nagad gateway responses) to support immediate transactional processing upon clinical check-out.
-	\item \textbf{Diet Template Automated Generation \& Export:} Expand the nutritionist workbench by adding an automated rule-based configuration tool that allows professionals to clone predefined structured diet sheets (\texttt{diet\_templates}) directly into active patient timelines, triggering the custom \texttt{pdfkit} compiler engine to stream finalized meal regimens.
-\end{itemize}
-
-
-% =========================================================================
-% INDIVIDUAL CONTRIBUTION 
-% =========================================================================
-\subsection{Individual contribution}
-
-\begin{table}[H] 
-	\centering
-	\small
-	\renewcommand{\arraystretch}{1.3}
-	\begin{tabular}{p{0.32\textwidth} p{0.18\textwidth} p{0.45\textwidth}}
-		\toprule
-		\textbf{Task List} & \textbf{Member Assigned} & \textbf{Comments} \\
-		\midrule
-		\textbf{System Infrastructure \& Security Guards} & Mehrab & Engineered the backend middleware verification architecture (\texttt{ensurePatientArrived()}), WebSocket isolated virtual room routing, multi-user automatic data flush logic, and multi-channel notification polling loops. \\
-		\textbf{Specialist Module \& Sonologist Layouts} & Mushfiq & Designed and deployed the full-stack Sonologist module workspace from end to end, refactored production schemas, and cleaned up multi-module import/export compilation errors. \\
-		\textbf{Mobile Caregiving \& Document Scanning} & Nafsin & Implemented the physician portal document scanning feature, native mobile primary care CRUD operations, and the standalone Caregiver management tracking module within the Android client app. \\
-		\textbf{Dietetics Workbench \& Document Streaming} & Jamil & Developed database schemas using Prisma and Neon DB for nutrition tables, built the type-safe \texttt{calculateNutrients} macro API, and integrated the \texttt{pdfkit} patient report binary streaming layout. \\
-		\bottomrule
-	\end{tabular}
-	\vspace{8pt} 
-	\caption{CONTRIBUTION SUMMARY.}
-	\label{tab:contribution_summary}
-\end{table}
-
-\clearpage 
-
-% =========================================================================
-% REFERENCES / BIBLIOGRAPHY SECTION
-% =========================================================================
-\bibliographystyle{abbrv}   
-{\tiny
-	\raggedright
-	\bibliography{ref}
-}
-\vfill
-
+	
+	\begin{table}[H]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth} >{\raggedright\arraybackslash}p{0.20\textwidth} >{\raggedright\arraybackslash}X}
+			\toprule
+			\textbf{Task List} & \textbf{Member Assigned} & \textbf{Comments} \\
+			\midrule
+			\textbf{Specialist Module, Video Call \& DICOM Viewer} & Mehrab Hossain & Engineered NestJS specialist services, WebRTC Agora video call gateway/screen integration, Cornerstone.js DICOM viewer with Canvas overlay annotations, and the main consultation page. \\
+			\textbf{Chat System, Payment Gateway \& MBBS UI} & Nafsin Nasama Salmee & Developed the real-time doctor-patient Socket.IO chat engine, full-stack Stripe payment integration with mobile PaymentSheet, and shared MBBS UI/Android screens. \\
+			\textbf{Caregiver Subsystem \& Sonologist Module} & Mushfiq & Built the complete caregiver module on Android/NestJS featuring GPS check-in/out, activity logging, condition alerts, and full-stack Sonologist study workflows. \\
+			\textbf{Nurse Mobile Application \& Nutritionist Workbench} & Yousuf Jamil & Architected the standalone \texttt{:nurse} Gradle Android application with 14 care screens, and developed the NestJS nutritionist service with Next.js \texttt{DietBuilder}. \\
+			\bottomrule
+		\end{tabularx}
+		\vspace{8pt}
+		\caption{CONTRIBUTION SUMMARY (WEEK 3).}
+		\label{tab:contribution_summary_w3}
+	\end{table}
+	
+	\section{Weekly Report 4}
+	
+	\subsection{Follow-up from last week}
+	Following the strategic development targets outlined in Weekly Report 3, the team executed the planned technical milestones for the Home Healthcare \& Diagnostic Center Management System (HHDMS) \cite{srs2026}. The detailed status and technical outcomes of the previous sprint targets are summarized below:
+	\begin{itemize}
+		\item \textbf{Telephony-Integrated Call Center Agent Desktop \& Automated Ticketing System:} Completed and Expanded. Engineered an operational call center agent interface supporting inbound caller identification popups mapped to centralized patient records and dynamic ticket generation (\texttt{TKT-YYYY-XXXXX}). Interactive multi-service booking workflows were operationalized to allow direct provider allocation across clinical desks.
+		\item \textbf{Asynchronous Notification Pipeline \& Distributed Message Queue Architecture:} Pivoted. Rather than deploying an intermediate RabbitMQ message broker, the notification architecture was hardened around an integrated SMS gateway interface backed by provider credentials (Twilio/BongoSMS). Automated triggers were established to handle transactional alerts for appointment confirmations, finalized reports, digital prescriptions, and diet plan deliveries.
+		\item \textbf{System-Wide Security Hardening, Zero-Trust RBAC, and Regulatory Compliance Audit:} Completed. System access controls were systematically hardened by locking patient, provider, and diagnostic API endpoints behind \texttt{JwtAuthGuard} middleware \cite{jones2015jwt}. Applied a granular \texttt{RolesGuard} RBAC framework, isolated specialist referral views to prevent unauthorized profile access, and implemented a centralized audit logging engine (\texttt{audit\_logs}) to record operational access history.
+		\item \textbf{Point-of-Care Diagnostic Device Synchronization \& DICOM Metadata Extraction Pipeline:} Completed as X-Ray Subsystem. The diagnostic ingestion framework was realized by building a full-stack Portable X-Ray module. Relational schemas (\texttt{xray\_booking}, \texttt{xray\_exam}, \texttt{xray\_exposure}, \texttt{xray\_report}) were deployed to record exposure parameters ($kVp$, $mAs$), enforce safety checklists, link DICOM imaging layers, and support radiologist interpretation workflows \cite{dicom2021}.
+		\item \textbf{Executive Business Intelligence, Operational Analytics, and Financial Ledger Engine:} Completed. Resolved administrative routing barriers by establishing a dedicated Admin portal equipped with real-time KPI summaries, daily operational metrics, and revenue analytics derived from payment transactions. Integrated scheduling management controls, cancellation/rescheduling endpoints (\texttt{SD-005}), caregiver/nurse attendance reports, and exportable financial summary views.
+	\end{itemize}
+	
+	\subsection{Work narrative of the current week}
+	During the current development sprint, engineering efforts focused on resolving critical functional gaps identified in the system architecture and executing four parallel development tracks to advance the Home Healthcare \& Diagnostic Center Management System (HHDMS) \cite{srs2026}. The team implemented full-stack billing and invoicing engines, a brand-new Portable X-Ray diagnostic workspace, executive administrative dashboards with scheduling controls, and zero-trust security layers with multi-channel notification integrations across Web (Next.js 16), Backend API (NestJS 11), Relational Database (Prisma ORM with Neon PostgreSQL), and Mobile platforms (Android Jetpack Compose) \cite{srs2026}.
+	\begin{itemize}
+		\item Tasks completed:
+		\begin{itemize}
+			\item \textbf{Billing \& Financial Ledger Subsystem (Track A):} Architected a comprehensive billing engine centered on an \texttt{Invoice} Prisma model with automated pricing rule evaluation based on service categories, eliminating hardcoded price fallbacks. Engineered deterministic invoice number generation (\texttt{INV-YYYY-XXXXX}) and streamlined Stripe \texttt{PaymentIntent} lifecycle management with idempotent webhook processing for automatic reconciliation \cite{stripe2024api}. Developed a bilingual invoice PDF generation and digital receipt streaming pipeline using \texttt{pdfkit} \cite{srs2026}. On the client side, built dedicated web and mobile billing interfaces (\texttt{InvoiceScreen.kt}) supporting cash payment overrides and payment banner clearing upon verified settlement.
+			
+			\item \textbf{Portable X-Ray Diagnostic Module (Track B):} Designed and deployed a complete full-stack Portable X-Ray module (XR-001--XR-011) to resolve the major missing diagnostic workflow gap \cite{srs2026}. Implemented relational database models (\texttt{xray\_booking}, \texttt{xray\_exam}, \texttt{xray\_technician}, \texttt{xray\_exposure}, \texttt{xray\_report}) and populated technician user credentials. Built safety checklist validations (pregnancy status, implants, contrast agent sensitivities), technical exposure logging interfaces ($kVp$, $mAs$, focal distance), DICOM imagery storage pipelines, and specialist radiologist interpretation interfaces utilizing the Cornerstone.js annotation engine \cite{dicom2021, pacs2001}.
+			
+			\item \textbf{Executive Admin Dashboard, Analytics \& Scheduling (Track C):} Unblocked administrative operations by constructing a protected Admin layout and dashboard interface (\texttt{/admin}) backed by role-based route guards. Implemented aggregate KPI widgets displaying daily bookings, revenue metrics, active provider tallies, and live call queue counts using real ticket records. Built provider and patient administration views, attendance reports for field personnel, cancellation and rescheduling endpoints (\texttt{SD-005}), an interactive calendar scheduling interface, and CSV report export utilities.
+			
+			\item \textbf{Security Hardening, RBAC \& Multi-Channel SMS Gateway (Track D):} Hardened API security by enforcing \texttt{JwtAuthGuard} protections across previously unauthenticated patient and provider endpoints, eliminating unauthorized exposure of Protected Health Information (PHI) \cite{jones2015jwt}. Implemented a fine-grained \texttt{RolesGuard} RBAC matrix, corrected default role assignments during signup, and restricted specialist referral access to assigned cases. Built an \texttt{audit\_logs} database model and middleware to track operational access history. Integrated an SMS gateway interface (Twilio/BongoSMS) to automate appointment confirmation, report completion, prescription, and diet plan dispatch notifications.
+		\end{itemize}
+		
+		\item Challenges faced:
+		\begin{itemize}
+			\item \textbf{Hardcoded Price Fallbacks and Payment Verification Flaws:} Discrepancies between hardcoded service pricing and dynamic invoice calculations led to UI state bugs where payment banners persisted after checkout. This was resolved by implementing a centralized price rule engine and enforcing client-side banner suppression only when backed by a verified, paid invoice record.
+			
+			\item \textbf{Database Schema Disruption During X-Ray Integration:} Integrating six new relational models for X-Ray exams without breaking existing specialist DICOM linkages presented schema migration challenges. The team systematically refactored Prisma definitions and deployed database migration scripts along with mock technician seeding routines to maintain operational stability.
+			
+			\item \textbf{Granular Endpoint Authorization and Data Isolation:} Enforcing strict role-based access across legacy endpoints without breaking existing mobile client integrations required careful refactoring. This was achieved by introducing custom NestJS decorators alongside unified \texttt{RolesGuard} guards, ensuring specialists only access referral records linked directly to their account.
+		\end{itemize}
+		
+		\item Progress made:
+		\begin{itemize}
+			\item \textbf{SRS Coverage Acceleration:} System completion progressed significantly by closing critical functional gaps, successfully delivering the complete Portable X-Ray module (XR-001--XR-011), closing the billing/invoicing loop, and establishing operational admin dashboards \cite{srs2026}.
+			
+			\item \textbf{Enterprise-Grade Security \& Multi-Channel Communication:} Core platform infrastructure was hardened with zero-trust API access controls, compliance audit logging, and automated SMS dispatch pipelines, moving HHDMS closer to staging deployment readiness.
+		\end{itemize}
+	\end{itemize}
+	
+	\subsection{Target for next weekly update}
+	To maintain development momentum and systematically address the remaining functional gaps outlined in the Software Requirements Specification (SRS) \cite{srs2026}, the upcoming development sprint will prioritize bridging backend clinical gaps, finalizing administrative workflows, and expanding financial/messaging services. The target milestones for the upcoming weekly update are itemized below:
+	
+	\begin{itemize}
+		\item \textbf{Nurse Backend API Engine \& Clinical Workflow Integration:} Build the missing NestJS \texttt{NurseModule}, Prisma relational models, and RESTful API endpoints to fully support the 15-screen Android Nurse application \cite{srs2026}. This includes server-side implementation for medication administration records (MAR), IV fluid tracking, wound care photo upload processing, vital signs recording, shift handover notes, and pediatric growth monitoring.
+		\item \textbf{Comprehensive GPS Telemetry, Geofencing \& Tracking Engine:} Upgrade mobile field personnel location sampling to periodic 30-second GPS telemetry streaming and construct the administrative real-time tracking map dashboard \cite{zandbergen2009accuracy}. Implement spherical distance-based geofence auto check-in logic, automated arrival ETA calculations, route deviation detection, offline location payload caching, and emergency SOS alert mechanisms.
+		\item \textbf{WhatsApp Business API Integration \& Multi-Channel Messaging:} Expand the notification engine beyond SMS and push alerts by integrating the official WhatsApp Business API. This pipeline will automate direct client delivery of encrypted PDF prescriptions, bilingual dietary plans, dynamic tracking links, digital invoice receipts, and follow-up consultation reminders.
+		\item \textbf{Centralized Scheduling, Route Optimization \& Rescheduling Engine:} Expand the scheduling subsystem by introducing dynamic provider slot management calendars, recurring appointment generation algorithms, and automated provider reminders (2-hour and 1-hour pre-visit alerts). Develop geo-proximity route optimization for field doctors and nurses to minimize travel time between patient locations.
+		\item \textbf{Multi-Method Payment Gateway Expansion \& Commission Tracking:} Expand the billing subsystem by integrating mobile financial services (bKash, Nagad, Rocket) alongside Stripe payment processing \cite{stripe2024api}. Implement automated provider commission calculation models, package pricing discount structures, dynamic promotional code logic, and itemized financial reconciliation reports.
+	\end{itemize}
+	
+	\subsection{Individual contribution}
+	
+	\begin{table}[H]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth} >{\raggedright\arraybackslash}p{0.20\textwidth} >{\raggedright\arraybackslash}X}
+			\toprule
+			\textbf{Task List} & \textbf{Member Assigned} & \textbf{Comments} \\
+			\midrule
+			\textbf{Billing \& Financial Ledger Subsystem} & Mehrab Hossain & Implemented Prisma \texttt{Invoice} models, automatic price calculation engines (\texttt{INV-YYYY-XXXXX}), Stripe webhook reconciliation, \texttt{pdfkit} dynamic receipt streams, and Android invoice interfaces \cite{stripe2024api}. \\
+			\textbf{Portable X-Ray Diagnostic Module} & Nafsin Nasama Salmee & Engineered the full-stack Portable X-Ray module (XR-001--XR-011), database schema models (\texttt{xray\_booking}, \texttt{xray\_exam}, \texttt{xray\_report}), safety checklists, exposure parameter logs, and DICOM interpretation views \cite{dicom2021}. \\
+			\textbf{Admin Dashboard, Analytics \& Scheduling} & Mushfiq & Built the protected \texttt{/admin} web dashboard, KPI metrics, real-time call queue aggregations, revenue analytics, appointment rescheduling endpoints (\texttt{SD-005}), and CSV export tools. \\
+			\textbf{Security Hardening, RBAC \& SMS Gateway} & Yousuf Jamil & Enforced \texttt{JwtAuthGuard} across API endpoints, developed fine-grained \texttt{RolesGuard} access isolation, created the \texttt{audit\_logs} tracking engine, and integrated the SMS gateway (Twilio/BongoSMS) \cite{jones2015jwt}. \\
+			\bottomrule
+		\end{tabularx}
+		\vspace{8pt}
+		\caption{CONTRIBUTION SUMMARY (WEEK 4).}
+		\label{tab:contribution_summary_w4}
+	\end{table}
+	
+	\section{Weekly Report 5}
+	
+	\subsection{Follow-up from last week}
+	Following the strategic development targets outlined in Weekly Report 4, the team executed the planned technical milestones for the Home Healthcare \& Diagnostic Center Management System (HHDMS) \cite{srs2026}. The detailed status and technical outcomes of the previous sprint targets are summarized below:
+	\begin{itemize}
+		\item \textbf{Nurse Backend API Engine \& Clinical Workflow Integration:} Completed and Integrated. Developed and connected backend services and Prisma relational models to support field nursing and clinical caregiver workflows. Implemented structured database endpoints for medication administration records (MAR), vital signs tracking, wound care photo management, shift handover documentation, and pediatric growth monitoring to interface directly with the standalone Android application.
+		\item \textbf{Comprehensive GPS Telemetry, Geofencing \& Tracking Engine:} Completed. Upgraded field personnel location tracking to a 30-second telemetry streaming architecture powered by an \texttt{osmdroid} and OSRM open-source stack \cite{zandbergen2009accuracy, osmdroid2024}. Integrated Android WorkManager and foreground services for offline coordinate caching, auto-synchronization upon reconnection, emergency SOS alert mechanisms (\texttt{LT-014}), time-limited web tracking URLs for patients (\texttt{LT-005}), spherical distance geofence check-ins (\texttt{LT-008}), and an interactive admin web live map with route history replay and deviation alerts (\texttt{LT-002}, \texttt{LT-006}, \texttt{LT-007}).
+		\item \textbf{WhatsApp Business API Integration \& Multi-Channel Messaging:} Pivoted. External SMS and WhatsApp Business API integrations were explicitly deferred for this sprint to focus resources on internal module completion. The multi-channel notification architecture was standardized around high-reliability Firebase Cloud Messaging (FCM) push alerts \cite{firebase2024fcm} and in-app notifications for transactional updates, provider reminders, and diagnostic report delivery.
+		\item \textbf{Centralized Scheduling, Route Optimization \& Rescheduling Engine:} Completed. Expanded the scheduling subsystem by deploying live ticket queue management (\texttt{CC-009}), automated cancellation and rescheduling workflows (\texttt{SD-005}) enforcing reason logging and fee structures, recurring appointment generation (\texttt{SD-007}), and pre-visit automated FCM reminders sent at 2-hour and 1-hour intervals (\texttt{SD-004}) alongside day route ordering (\texttt{SD-003}).
+		\item \textbf{Multi-Method Payment Gateway Expansion \& Commission Tracking:} Completed. Enhanced the financial engine by implementing itemized invoice line items with tax and discount adjustments (\texttt{BP-002}), manual cash payment recording (\texttt{BP-003}), package pricing structures (\texttt{BP-009}), and promotional code rules with audit tracking (\texttt{BP-010}). Built automated provider commission calculation models and monthly statement generation tools (\texttt{BP-007}).
+	\end{itemize}
+	
+	\subsection{Work narrative of the current week}
+	During the current development sprint, engineering efforts focused on systematically addressing the remaining functional gaps identified in the system architecture and executing four parallel development tracks to advance the Home Healthcare \& Diagnostic Center Management System (HHDMS) \cite{srs2026}. The team focused on closing core requirement gaps by delivering the Portable X-Ray diagnostic subsystem, establishing real-time GPS telemetry and dispatch tracking, finalizing call center operations with itemized billing, and building a web patient portal backed by zero-trust security controls across Web (Next.js 16), Backend API (NestJS 11), Relational Database (Prisma ORM with Neon PostgreSQL), and Mobile platforms (Android Jetpack Compose with WorkManager) \cite{srs2026}.
+	\begin{itemize}
+		\item Tasks completed:
+		\begin{itemize}
+			\item \textbf{Portable X-Ray Diagnostic Subsystem (Track A):} Operationalized the full-stack Portable X-Ray workflow (\texttt{XR-001}--\texttt{XR-011}) to close the primary diagnostic SRS gap \cite{srs2026, dicom2021}. Scaled Prisma database schemas with models for \path{xray_bookings}, \texttt{xray\_exposure\_parameters}, and \texttt{xray\_reports}, alongside introducing the \path{XRAY_TECHNICIAN} user role. Deployed booking endpoints with mandatory safety checklists (screening for pregnancy, metal implants, pacemakers, and contrast allergies). Built technician exposure logging interfaces ($kVp$, $mAs$, focal-film distance, grid, projection types, film sizing) alongside technical report entry for quality and positioning artifacts (\texttt{XR-005}/\texttt{XR-006}). Integrated UploadCare for DICOM storage, reused the Cornerstone.js annotation engine for radiologist interpretation and digital signatures, and established Firebase Cloud Messaging (FCM) push alerts \cite{firebase2024fcm} for finalized diagnostic reports (\texttt{XR-009}).
+			
+			\item \textbf{GPS Telemetry, Real-Time Dispatch \& Field Tracking (Track B):} Built a live geospatial tracking infrastructure utilizing an open-source \texttt{osmdroid} and OSRM routing stack \cite{zandbergen2009accuracy, osmdroid2024}. Engineered a high-efficiency location ingestion endpoint (\texttt{POST /tracking/location}) backed by a 30-second capture cadence via Android WorkManager foreground services, incorporating offline coordinate caching with automatic sync upon reconnection (\texttt{LT-016}). Implemented an emergency SOS alert mechanism triggering real-time admin notifications with exact spatial coordinates (\texttt{LT-014}). Developed an interactive administrative web live map (OpenStreetMap tiles) displaying color-coded provider pins, click-to-view details, stationary alerts (>30 minutes), and route deviation warnings (>500m) (\texttt{LT-002}, \texttt{LT-006}, \texttt{LT-007}, \texttt{LT-013}, \texttt{LT-017}). Deployed time-limited, app-free patient web tracking URLs (\texttt{LT-005}), OSRM-based ETA delay alerts (\texttt{LT-009}, \texttt{LT-021}), and spherical geofence auto check-in logic (\texttt{LT-008}).
+			
+			\item \textbf{Call Center Management, Scheduling, Billing \& Business Intelligence (Track C):} Transitioned call center queue management from mock data to a live, stateful ticket queue with wait-time estimation (\texttt{CC-009}) and metadata call logging (\texttt{CC-004}). Implemented an emergency triage protocol (\texttt{CC-010}) that auto-flags tickets based on symptom keywords to alert on-duty MBBS doctors via FCM push alerts \cite{firebase2024fcm}. Enhanced appointment management with cancellation and rescheduling controls (\texttt{SD-005}) enforcing reason logging and fee rules, alongside recurring appointment generation (\texttt{SD-007}) and 2-hour/1-hour FCM provider reminders (\texttt{SD-004}). Completed financial operations by building itemized invoice line-items (\texttt{BP-002}), manual cash payment records (\texttt{BP-003}), package pricing (\texttt{BP-009}), promo code audits (\texttt{BP-010}), and automated provider commission statement generation (\texttt{BP-007}). Constructed institutional analytics dashboards covering call center KPIs (\texttt{RA-004}), physician performance (\texttt{RA-002}), and field attendance (\texttt{RA-003}).
+			
+			\item \textbf{Patient Portal, Caregiver/Specialist Modules \& Security Hardening (Track D):} Locked all unauthenticated PII endpoints behind strict \texttt{JwtAuthGuard} \cite{jones2015jwt} and \texttt{RolesGuard} RBAC layers, corrected role assignments, and standardized Medical Record Numbers to a deterministic format (\texttt{MRN-YYYY-XXXXXX}) (\texttt{PM-002}). Built a client-facing Web Patient Portal (\texttt{PM-006}) enabling patients to access appointments, medical records, prescriptions, invoices, diet plans, and live tracking links. Developed a filterable medical history timeline (\texttt{PM-005}), a rating and feedback submission module with admin escalation SLA (\texttt{PM-010}), caregiver timesheets and ratings (\texttt{CG-008}/\texttt{CG-009}), digital consent rendering (\texttt{PM-009}), specialist follow-up tools (\texttt{SP-009}, \texttt{SP-012}), and caregiver training expiry alerts (\texttt{CG-010}).
+		\end{itemize}
+		
+		\item Challenges faced:
+		\begin{itemize}
+			\item \textbf{Third-Party Telecom and Mapping API Integration Barriers:} Severe integration challenges, credential restrictions, and operational overhead were encountered when attempting to interface with Google Maps, WhatsApp Business API, and external SMS gateway provider platforms. This was resolved by making an architectural scope adjustment: Google Maps was replaced with a robust open-source \texttt{osmdroid} and OSRM telemetry pipeline \cite{osmdroid2024}. Similarly, external SMS and WhatsApp channels were bypassed in favor of a reliable, unified multi-channel messaging engine built entirely on Firebase Cloud Messaging (FCM) push alerts \cite{firebase2024fcm} and in-app notification state loops.
+			
+			\item \textbf{High-Frequency Telemetry vs. Battery and Caching Balance:} Maintaining continuous 30-second location capture for traveling field staff without causing rapid battery drain or data loss in low-connectivity zones presented technical bottlenecks. This was addressed by optimizing Android WorkManager foreground services to capture coordinates efficiently, backing location payloads with an SQLite offline cache that auto-flushes to the backend upon network restoration.
+			
+			\item \textbf{API Access Hardening Without Service Disruption:} Enforcing zero-trust authentication across sensitive patient PII and specialist endpoints risked breaking active client web and mobile workflows. The team systematically audited all routes, applying custom NestJS guards and role-based access parameters to isolate data access cleanly without disrupting user sessions.
+		\end{itemize}
+		
+		\item Progress made:
+		\begin{itemize}
+			\item \textbf{SRS Gap Closure and Workflow Completion:} Development velocity achieved near-total SRS coverage by fully closing the X-Ray diagnostic loop, establishing live field dispatch tracking, completing call center and billing infrastructure, and launching the patient web portal.
+			
+			\item \textbf{Resilient Infrastructure Standardized on FCM and Open Source:} By migrating from restrictive third-party APIs to an open-source mapping stack (\texttt{osmdroid}/OSRM \cite{osmdroid2024}) and centralized FCM push notifications \cite{firebase2024fcm}, HHDMS achieved an independent, highly stable system architecture ready for staging deployment.
+		\end{itemize}
+	\end{itemize}
+	
+	\subsection{Individual contribution}
+	
+	\begin{table}[H]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth} >{\raggedright\arraybackslash}p{0.20\textwidth} >{\raggedright\arraybackslash}X}
+			\toprule
+			\textbf{Task List} & \textbf{Member Assigned} & \textbf{Comments} \\
+			\midrule
+			\textbf{Portable X-Ray Module \& DICOM Interpretation} & Mehrab Hossain & Engineered Prisma models (\texttt{xray\_bookings}, exposure params, reports), safety checklist logic, technician assignment, UploadCare DICOM storage, radiologist interpretation viewer integration, and FCM push notifications \cite{dicom2021, firebase2024fcm}. \\
+			
+			\textbf{GPS Tracking, Dispatch \& Geofencing Engine} & Nafsin Nasama Salmee & Developed the \texttt{gps\_logs} schema, 30s Android WorkManager telemetry streaming, offline location caching, emergency SOS alerts (\texttt{LT-014}), OSRM ETA calculations, web live map, route replay, and spherical geofence auto check-in (\texttt{LT-008}) \cite{zandbergen2009accuracy, osmdroid2024}. \\
+			
+			\textbf{Call Center, Scheduling, Billing \& Analytics} &  Mushfiq & Built live ticket queue (\texttt{CC-009}), emergency triage protocol (\texttt{CC-010}), cancellation/rescheduling endpoints (\texttt{SD-005}), itemized billing with promo/package rules (\texttt{BP-002}, \texttt{BP-009}), commission statements (\texttt{BP-007}), and executive analytics dashboards (\texttt{RA-002}--\texttt{RA-005}). \\
+			
+			\textbf{Patient Web Portal, Caregiver Gaps \& Security} & Yousuf Jamil & Locked unauthenticated PII endpoints, enforced \texttt{RolesGuard} RBAC, normalized MRN formats (\texttt{PM-002}), developed the client Web Patient Portal (\texttt{PM-006}), medical timeline (\texttt{PM-005}), feedback/complaint workflows (\texttt{PM-010}), and caregiver timesheets/ratings (\texttt{CG-008}/\texttt{CG-009}) \cite{jones2015jwt}. \\
+			\bottomrule
+		\end{tabularx}
+		\vspace{8pt}
+		\caption{CONTRIBUTION SUMMARY (WEEK 5).}
+		\label{tab:contribution_summary_w5}
+	\end{table}
+	
+	\FloatBarrier
+	\bibliographystyle{abbrv}   
+	{\tiny
+		\bibliography{ref}
+	}
+	\vfill
+	
 \end{document}
