@@ -1,0 +1,103 @@
+\documentclass[lettersize,onecolumn,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{titling}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily, keywordstyle=\bfseries}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage[nospace,compress,sort]{cite}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{url}
+\usepackage{amsfonts,dcolumn}
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{booktabs}
+
+\lstset{language=Python, literate={symbol_1}{symbol_l}1 {symbol_2}{simbol_2}1 }
+
+
+\begin{document}
+
+%----------------------------
+\title{[CSE299(1) - Group\#6] Complex Engineering Problems and Activities: Home Healthcare \& Diagnostic Center Management System}
+\date{Summer 2026}
+\author{Md Mehrab Hossain Khandoker (2311511042),\\
+Nafsin Nasama Salmee (2311776642),\\
+Mohammed Mushfiq Syed (2232295042),\\
+Yousuf Jamil (2321210642)\\
+\{mehrab.khandoker, nafsin.salmee, mohammed.syed, yousuf.jamil.232\}@nothsouth.edu}
+\maketitle
+
+\section{Complex Engineering Problems (CEP)}
+
+Table~\ref{tab:cep} demonstrates the complex engineering problem attributes of our project.
+
+\begin{table}[H]
+\centering
+\caption{Complex Engineering Problem Attributes}
+\begin{tabular}{|c|>{\raggedright\arraybackslash}m{4cm}|>{\raggedright\arraybackslash}m{8cm}|}
+\hline
+\textbf{Attributes} & \textbf{Description} & \textbf{Addressing the Complex Engineering Problems (P) in the Project} \\
+\hline
+P1 & Depth of knowledge required (K3--K8) & Requires in-depth knowledge across K3--K8: engineering fundamentals (K3), specialist knowledge of telemedicine, DICOM imaging, WebRTC, and RBAC (K4), system design (K5), engineering practice of REST/WebSocket APIs and Android (K6), societal health/safety impact (K7), and research literature (K8). \\
+\hline
+P2 & Range of conflicting requirements & Balances conflicting requirements: low-latency video consultation against PHI security, offline open-source mapping against GPS accuracy, cross-platform consistency against device/network constraints, and clinical safety against field autonomy. \\
+\hline
+P3 & Depth of analysis required & No obvious solution; required analysis and abstract thinking to choose the communication stack, on-device DICOM annotation over heavyweight transfer, Haversine-based geofencing, and the multi-tenant RBAC model. \\
+\hline
+P4 & Familiarity of issues & Addresses infrequently encountered issues: browser-based DICOM imaging, GPS-verified attendance, telehealth signaling, and role-based access for over ten clinical and non-clinical roles. \\
+\hline
+P5 & Extent of applicable codes & Falls outside any single engineering code; integrates several standards (DICOM/PACS, WebRTC, JWT) with original software decisions. \\
+\hline
+P6 & Extent of stakeholder involvement & Involves diverse groups with conflicting needs, including patients, doctors, nurses, caregivers, nutritionists, sonologists, X-ray technicians, call-center agents, and administrators. \\
+\hline
+P7 & Interdependence & High-level problem with many interdependent parts (dispatch, EMR, imaging, telehealth, field ops, billing, security) that must remain synchronized through shared data and real-time events. \\
+\hline
+\end{tabular}
+\label{tab:cep}
+\end{table}
+
+\newpage
+
+\section{Complex Engineering Activities (CEA)}
+
+Table~\ref{tab:cea} demonstrates the complex engineering problem activities of our project.
+
+\begin{table}[H]
+\centering
+\caption{Complex Engineering Problem Activities}
+\begin{tabular}{|c|>{\raggedright\arraybackslash}m{4cm}|>{\raggedright\arraybackslash}m{8cm}|}
+\hline
+\textbf{Attributes} & \textbf{Description} & \textbf{Addressing the Complex Engineering Activities (A) in the Project} \\
+\hline
+A1 & Range of resources & Involves diverse resources: a multi-disciplined team, financial investment (Stripe billing), medical imaging equipment, electronic medical information, and multiple technologies (NestJS, Next.js, Jetpack Compose, Agora WebRTC, DICOM, Firebase). \\
+\hline
+A2 & Level of interactions & Requires resolving significant problems from interactions between conflicting technical issues, keeping teleconsultation, diagnostics, field operations, and billing synchronized across roles while preserving security and low latency. \\
+\hline
+A3 & Innovation & Employs creative use of engineering principles in novel ways, integrating browser-based DICOM annotation, telemedicine, GPS-verified field logistics, and automated billing into a single home-healthcare platform. \\
+\hline
+A4 & Consequences to society/environment & Has significant positive societal consequences: improves healthcare access, supports chronic and elderly care, and reduces hospital burden, while requiring careful handling of patient privacy and protected health information. \\
+\hline
+A5 & Familiarity & Extends beyond prior experience by applying principles-based approaches across a full-stack, distributed health system including real-time communication, medical imaging, geospatial verification, and secure multi-tenant engineering. \\
+\hline
+\end{tabular}
+\label{tab:cea}
+\end{table}
+
+
+
+
+\end{document}
