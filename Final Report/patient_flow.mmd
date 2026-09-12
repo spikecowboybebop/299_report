@@ -1,0 +1,18 @@
+flowchart LR
+    A([Call Center Intake]) --> B{Patient identified?}
+    B -- No --> C[Register patient<br/>MRN + Ticket]
+    B -- Yes --> D[Queue &amp; Dispatch]
+    C --> D
+
+    D --> E{Provider type}
+    E -- MBBS --> F[Primary care<br/>vitals + ICD-10]
+    E -- Specialist --> G[Consultation<br/>video + DICOM]
+    E -- Field staff --> H[Field visit<br/>GPS + check-in]
+
+    F --> I[Diagnostics<br/>Sonologist / X-Ray]
+    G --> I
+    H --> I
+
+    I --> J[Invoice &amp; Payment]
+    J --> K[Report + Receipt]
+    K --> L([Care Complete])
